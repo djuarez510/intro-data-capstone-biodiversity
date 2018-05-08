@@ -1,0 +1,244 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Completed Code in the Learning Environment\
+import codecademylib\
+import pandas as pd\
+import numpy as np\
+from matplotlib import pyplot as plt\
+species = pd.read_csv('species_info.csv')\
+print(species)\
+print(species.info()) \
+\
+species_count = species.scientific_name.nunique()\
+print(species_count)\
+\
+species_type = species.category.unique()\
+print(species_type)\
+\
+conservation_statuses = species.conservation_status.unique()\
+print(conservation_statuses)\
+\
+conservation_counts = species.groupby('conservation_status').scientific_name.nunique().reset_index()\
+print(conservation_counts)\
+\
+species.fillna('No Intervention', inplace = True)\
+\
+conservation_counts_fixed = species.groupby('conservation_status').scientific_name.nunique().reset_index()\
+print(conservation_counts_fixed)\
+\
+\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+\
+species.fillna('No Intervention', inplace = True)\
+\
+protection_counts = species.groupby('conservation_status')\\\
+    .scientific_name.nunique().reset_index()\\\
+    .sort_values(by='scientific_name')\
+    \
+plt.figure(figsize=(10, 4))\
+ax = plt.subplot()\
+plt.bar(range(len(protection_counts)),protection_counts.scientific_name.values)\
+ax.set_xticks(range(len(protection_counts)))\
+ax.set_xticklabels(protection_counts.conservation_status.values)\
+plt.ylabel('Number of Species')\
+plt.title('Conservation Status by Species')\
+labels = [e.get_text() for e in ax.get_xticklabels()]\
+plt.show()\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+\
+species.fillna('No Intervention', inplace = True)\
+\
+species['is_protected'] = species.conservation_status != 'No Intervention'\
+\
+category_counts = species.groupby(['category', 'is_protected']).scientific_name.nunique().reset_index()\
+\
+category_pivot = category_counts.pivot(columns='is_protected',\
+                      index='category',\
+                      values='scientific_name')\\\
+                      .reset_index()\
+  \
+category_pivot.columns = ['category', 'not_protected', 'protected']\
+\
+category_pivot['percent_protected'] = category_pivot.protected / (category_pivot.protected + category_pivot.not_protected)\
+\
+print category_pivot\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+\
+species.fillna('No Intervention', inplace = True)\
+\
+species['is_protected'] = species.conservation_status != 'No Intervention'\
+\
+category_counts = species.groupby(['category', 'is_protected']).scientific_name.nunique().reset_index()\
+\
+category_pivot = category_counts.pivot(columns='is_protected',\
+                      index='category',\
+                      values='scientific_name')\\\
+                      .reset_index()\
+  \
+category_pivot.columns = ['category', 'not_protected', 'protected']\
+\
+category_pivot['percent_protected'] = category_pivot.protected / (category_pivot.protected + category_pivot.not_protected)\
+\
+print category_pivot\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+from scipy.stats import chi2_contingency\
+\
+contingency = [[30, 146],\
+              [75, 413]]\
+\
+pval = chi2_contingency(contingency)[1]\
+print(pval)\
+\
+contingency_reptile_mammal = [[30, 146],\
+                              [5, 73]]\
+\
+pval_reptile_mammal = chi2_contingency(contingency_reptile_mammal)[1]\
+print(pval_reptile_mammal)\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+species.fillna('No Intervention', inplace = True)\
+species['is_protected'] = species.conservation_status != 'No Intervention'\
+\
+observations = pd.read_csv('observations.csv')\
+print(observations)\
+\
+species['is_sheep'] = species.common_names.apply(lambda x: 'Sheep' in x)\
+\
+species_is_sheep = species[species.is_sheep]\
+\
+print species_is_sheep\
+\
+sheep_species = species[(species.is_sheep) & (species.category == 'Mammal')]\
+\
+print sheep_species\
+\
+sheep_observations = pd.merge(sheep_species, observations)\
+print(sheep_observations\
+\
+obs_by_park = observations.groupby('park_name').observations.sum().reset_index()\
+print(obs_by_park)\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+species.fillna('No Intervention', inplace = True)\
+species['is_protected'] = species.conservation_status != 'No Intervention'\
+\
+observations = pd.read_csv('observations.csv')\
+print(observations)\
+\
+species['is_sheep'] = species.common_names.apply(lambda x: 'Sheep' in x)\
+\
+species_is_sheep = species[species.is_sheep]\
+\
+print species_is_sheep\
+\
+sheep_species = species[(species.is_sheep) & (species.category == 'Mammal')]\
+\
+print sheep_species\
+\
+sheep_observations = pd.merge(sheep_species, observations)\
+print(sheep_observations\
+\
+obs_by_park = observations.groupby('park_name').observations.sum().reset_index()\
+print(obs_by_park)\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+species.fillna('No Intervention', inplace = True)\
+species['is_protected'] = species.conservation_status != 'No Intervention'\
+\
+observations = pd.read_csv('observations.csv')\
+print(observations)\
+\
+species['is_sheep'] = species.common_names.apply(lambda x: 'Sheep' in x)\
+\
+species_is_sheep = species[species.is_sheep]\
+\
+print species_is_sheep\
+\
+sheep_species = species[(species.is_sheep) & (species.category == 'Mammal')]\
+\
+print sheep_species\
+\
+sheep_observations = pd.merge(sheep_species, observations)\
+print(sheep_observations\
+\
+obs_by_park = observations.groupby('park_name').observations.sum().reset_index()\
+print(obs_by_park)\
+\
+\
+import codecademylib\
+import pandas as pd\
+from matplotlib import pyplot as plt\
+\
+species = pd.read_csv('species_info.csv')\
+species['is_sheep'] = species.common_names.apply(lambda x: 'Sheep' in x)\
+sheep_species = species[(species.is_sheep) & (species.category == 'Mammal')]\
+\
+observations = pd.read_csv('observations.csv')\
+\
+sheep_observations = observations.merge(sheep_species)\
+\
+obs_by_park = sheep_observations.groupby('park_name').observations.sum().reset_index()\
+print(obs_by_park)\
+\
+plt.figure(figsize=(16, 4))\
+ax = plt.subplot()\
+plt.bar(range(len(obs_by_park)), obs_by_park.observations.values)\
+ax.set_xticks(range(len(obs_by_park)))\
+ax.set_xticklabels(obs_by_park.park_name.values)\
+plt.ylabel('Number of Observations')\
+plt.title('Observations of Sheep per Week')\
+labels = [e.get_text() for e in ax.get_xticklabels()]\
+plt.show()\
+\
+\
+baseline = 15\
+\
+minimum_detectable_effect = 100*5./15\
+\
+sample_size_per_variant = 870\
+\
+yellowstone_weeks_observing = sample_size_per_variant/507.\
+\
+bryce_weeks_observing = sample_size_per_variant/250.\
+}
